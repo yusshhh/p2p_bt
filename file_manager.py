@@ -1,21 +1,26 @@
-import hashlib
 import os
+import hashlib
+
+FILE_STORAGE_DIR = "./files"
 
 def calculate_file_hash(file_path):
-    """Calculates the SHA-256 hash of a file."""
-    sha256_hash = hashlib.sha256()
+    hash_func = hashlib.sha256()
     with open(file_path, "rb") as f:
-        for byte_block in iter(lambda: f.read(4096), b""):
-            sha256_hash.update(byte_block)
-    return sha256_hash.hexdigest()
+        while chunk := f.read(8192):
+            hash_func.update(chunk)
+    return hash_func.hexdigest()
 
 def upload_file(file_path):
-    """Mock upload of a file."""
-    if os.path.exists(file_path):
-        print(f"File '{file_path}' uploaded successfully!")
-    else:
-        print(f"File '{file_path}' does not exist.")
+    if not os.path.exists(FILE_STORAGE_DIR):
+        os.makedirs(FILE_STORAGE_DIR)
+    file_name = os.path.basename(file_path)
+    dest_path = os.path.join(FILE_STORAGE_DIR, file_name)
+    os.replace(file_path, dest_path)
+    print(f"File uploaded to {dest_path}")
 
-def download_file(file_name, output_path):
-    """Mock download of a file."""
-    print(f"Mock: Downloading file '{file_name}' to '{output_path}'...")
+def download_file(file_name):
+    file_path = os.path.join(FILE_STORAGE_DIR, file_name)
+    if os.path.exists(file_path):
+        print(f"File downloaded: {file_path}")
+    else:
+        print("File not found.")
