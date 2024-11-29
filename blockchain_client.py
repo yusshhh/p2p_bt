@@ -1,6 +1,6 @@
 import requests
 
-BASE_URL = "http://localhost:8080"
+BASE_URL = "http://localhost:5500"
 
 def add_block(file_name, file_hash):
     response = requests.post(
