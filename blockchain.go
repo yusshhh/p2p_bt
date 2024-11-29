@@ -116,6 +116,6 @@ func main() {
 	http.HandleFunc("/blockchain", handleGetBlockchain)
 	http.HandleFunc("/validate", handleValidate)
 
-	fmt.Println("Blockchain server running on port 8080...")
-	http.ListenAndServe(":8080", nil)
+	fmt.Println("Blockchain server running on port 5500...")
+	http.ListenAndServe(":5500", nil)
 }
